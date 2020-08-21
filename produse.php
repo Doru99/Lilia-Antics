@@ -2,19 +2,27 @@
   <head>
     <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="produse.css">
+    <link rel="stylesheet" href="myMenu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
 
 
 
-    <div class="page">
-      <nav class="menu">
-        <ul class="menu__list">
-          <li class="menu__group"><a href="main.html" class="menu__link">Despre noi/Contact</a></li>
-          <li class="menu__group"><a href="produse.php" class="menu__link">Produse</a></li>
-          <li class="menu__group"><a href="cos.php" class="menu__link">Cos</a></li>
-        </ul>
-      </nav>
+  <div id="meniu_container">
+        <div class="search-container">
+            <form action="/action_page.php">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <nav class="meniu">
+            <ul class="main_meniu">
+                <li><a href="main.php" class="meniu_page">Home</a></li>
+                <li class="active"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li><a href="cos.php" class="meniu_page">Cos</a></li> 
+            </ul>
+        </nav>
     </div>
 
 
