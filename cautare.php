@@ -1,6 +1,6 @@
 <html>
   <head>
-  <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="card.css">
@@ -8,7 +8,10 @@
   </head>
   <body>
 
-
+<?php
+$connection=mysqli_connect("localhost", "root","");
+$db=mysqli_select_db($connection,'anticariat');
+?>
 
   <div id="meniu_container">
         <div class="search-container">
@@ -19,41 +22,27 @@
         </div>
         <nav class="meniu">
             <ul class="main_meniu">
-                <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos</a></li> 
+                <li><a href="contact.html" class="meniu_page">Acasa</a></li>
+                <li class="active"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li  ><a href="cos.php" class="meniu_page">Cos</a></li> 
             </ul>
         </nav>
-  </div>
+    </div>
 
+<?php
+$search=mysqli_real_escape_string($connection,$_POST['search']);
 
-    <?php
-      $connection=mysqli_connect("localhost", "root","");
-      $db=mysqli_select_db($connection,'anticariat');
-      $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)";
-      $query_run=mysqli_query($connection,$query);
-      $results_per_page=18;
-      $number_of_results=mysqli_num_rows($query_run);
-      $number_of_pages=ceil($number_of_results/$results_per_page);
-
-      if(!isset($_GET['page'])){
-        $page=1;
-
-      }else{
-        $page=$_GET['page'];
-      }
-
-      $this_page_first_result = ($page-1)*$results_per_page;
-
-      $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) LIMIT " . $this_page_first_result.','.$results_per_page;
-      $query_run=mysqli_query($connection,$query);
-
-    ?>
-    <div id="container">
-      <?php
-        while ($row=mysqli_fetch_array($query_run)){
-      ?>
-     <div class="card">
+if(isset($_POST['submit-search'])||isset($_POST['search'])){
+     $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+            WHERE (produse.numProdus like '%$search%')OR (produse.tip like'%$search%')OR (produse.descriere like '%$search%')OR (produse.pret like '%$search%') ";
+    $result=mysqli_query($connection,$query);
+    $queryResult=mysqli_num_rows($result);
+    if($queryResult>0){?>
+        <div id="container">
+            <?php
+        while ($row=mysqli_fetch_array($result)){
+            ?>
+             <div class="card">
                   <div class="img_prod">
                   <?php
                   echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
@@ -72,16 +61,25 @@
                     </div>
                   </div>
                 </div>
-      <?php
-      }?>
-    </div>
+            <?php
+            }?>
+<?php
+    }else{
+        echo "Nu sunt rezultate pentru cautarea dumneavoastra!!!";
+    }
 
-    <div class="pagination">
-    <?php
-    for($page=1;$page<=$number_of_pages;$page++){
-      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
-    }?>
-    </div>
+}else{
+
+    echo"NU AI CHESTIE";
+}
+
+?>
+</div>
+
+
+
+
+
 
     <div id="footer">
       <div class="footer_box">
