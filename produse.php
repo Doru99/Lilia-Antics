@@ -18,14 +18,12 @@
         </div>
         <nav class="meniu">
             <ul class="main_meniu">
-                <li><a href="main.php" class="meniu_page">Home</a></li>
-                <li class="active"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li><a href="cos.php" class="meniu_page">Cos</a></li> 
+                <li onclick="location.href='main.php';"><a href="main.php" class="meniu_page">Home</a></li>
+                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos</a></li> 
             </ul>
         </nav>
-    </div>
-
-
+  </div>
 
 
     <?php
@@ -49,27 +47,31 @@
       $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) LIMIT " . $this_page_first_result.','.$results_per_page;
       $query_run=mysqli_query($connection,$query);
 
-      while ($row=mysqli_fetch_array($query_run)){
     ?>
-    <div class="wrapper">
-      <div class="product-img">
-        <?php echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza" height="420" width="327">';?>
-      </div>
-      <div class="product-info">
-        <div class="product-text">
-          <h1><?php echo $row['numProdus'];?></h1>
-          <h2><?php echo $row['tip'];?></h2>
-          <p> <?php echo $row['descriere'];?></p>
+    <div id="card_container">
+      <?php
+        while ($row=mysqli_fetch_array($query_run)){
+      ?>
+      <div class="wrapper">
+        <div class="product-img">
+          <?php echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza" height="420" width="327">';?>
         </div>
-        <div class="product-price-btn">
-          <p><span class="card_text"><?php echo $row['pret'];
-      ?></span></p>
-          <button type="button">Adauga in cos</button>
+        <div class="product-info">
+          <div class="product-text">
+            <h1><?php echo $row['numProdus'];?></h1>
+            <h2><?php echo $row['tip'];?></h2>
+            <p> <?php echo $row['descriere'];?></p>
+          </div>
+          <div class="product-price-btn">
+            <p><span class="card_text"><?php echo $row['pret'];
+        ?></span></p>
+            <button type="button">Adauga in cos</button>
+          </div>
         </div>
       </div>
+      <?php
+      }?>
     </div>
-    <?php
-    }?>
 
     <div class="pagination">
     <?php
