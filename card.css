@@ -1,17 +1,20 @@
+body{
+    --card-color:#f2f2f2;
+}
 
 #container {
-    width: 80%;
-    margin-left: 20%;
-    background-color: var(--grey-color);
+    width: 69%;
+    background-color: var(--card-color);
+    display: inline-block;
 }
 
 .card {
     position: relative;
-    background-color: #f2f2f2;
+    background-color: white;
     width: 20%;
     height: 64%;
     display: inline-block;
-    margin: 50px 20px;
+    margin: 2% 1% 2% 0;
     border-radius: 7px 7px 7px 7px;
     border: 2px solid var(--green-color);
     -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
@@ -60,6 +63,7 @@
 
 .com_prod {
     position: absolute;
+    height: 20%;
     bottom: 0px;
     width: 100%;
     text-align: center;
@@ -67,9 +71,8 @@
 
 .com_prod button {
     width:80%;
-    height: 50px;
-    margin-top:16px;
-    margin-bottom:24px;
+    height: 30%;
+    margin-top:3%;
     box-sizing: border-box;
     border: transparent;
     border-radius: 60px;
@@ -88,6 +91,10 @@
     -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
     -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
     box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+}
+
+.com_prod button:last-child{
+    margin-bottom: 3%;
 }
 
 .pretProd {

@@ -14,6 +14,7 @@ body{
     background-image: url(imagini/logo_edit.jpg);
     background-repeat: no-repeat;
     background-size: contain;
+    background-color: #E2DACF;
 }
 
 .search-container {
