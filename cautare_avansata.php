@@ -27,7 +27,7 @@
     </div>
 
     <div id="filtru_container">
-    <form method="POST" action="cautare_avansata.php" >
+    <form method="GET" action="cautare_avansata.php" >
       <div class="filtru">
         <span class="num_filtru">Pret</span>
         <hr>

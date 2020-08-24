@@ -84,6 +84,7 @@ body{
     color: #ffffff;
     background-color: #142E2F;
     cursor: pointer;
+    transition: 0.2s all;
 }
 
 .com_prod button:hover {

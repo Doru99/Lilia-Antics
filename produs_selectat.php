@@ -1,6 +1,6 @@
 <html>
   <head>
-  <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="card.css">
@@ -9,69 +9,74 @@
   <body>
 
 
+    <div id="meniu_container">
+      <div class="search-container">
+        <form action="cautare.php" method="POST">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+      <nav class="meniu">
+        <ul class="main_meniu">
+            <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
+            <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+            <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos</a></li> 
+        </ul>
+      </nav>
+    </div>
 
-  <div id="meniu_container">
-        <div class="search-container">
-            <form action="cautare.php" method="POST">
-            <input type="text" placeholder="Search.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+
+    <?php
+      $prod_id=$_GET['idProdus'];
+      $connection=mysqli_connect("localhost", "root","");
+      $db=mysqli_select_db($connection,'anticariat');
+      $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) where produse.idProdus='$prod_id'";
+      $result=mysqli_query($connection,$query);
+      $row=mysqli_fetch_row($result);
+      $titlu=$row[1];
+      $tip=$row[2];
+      $descriere=$row[3];
+      $pret=$row[4];
+      $poza=$row[5];
+
+    ?>
+
+    <div id="content">
+      <div id="imagine">
+        <div id="zoom_image">
+          <?php
+            echo '<img src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
+          ?>
         </div>
-        <nav class="meniu">
-            <ul class="main_meniu">
-                <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos</a></li> 
-            </ul>
-        </nav>
-  </div>
-
-
-  <?php
- $prod_id=$_GET['idProdus'];
-$connection=mysqli_connect("localhost", "root","");
-$db=mysqli_select_db($connection,'anticariat');
-$query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) where produse.idProdus='$prod_id'";
-$result=mysqli_query($connection,$query);
-$row=mysqli_fetch_row($result);
-    $titlu=$row[1];
-    $tip=$row[2];
-    $descriere=$row[3];
-    $pret=$row[4];
-    $poza=$row[5];
-
-  ?>
-
-<div id="content">
-<div id="imagine">
-<?php
-                  echo '<img class="imagine" src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
-                  ?>
-</div>
-<div id="specificatii">
-    <p>
-        <?php echo $titlu; ?></p>
-        <p>  <?php echo $tip; ?>
-    </p>
-    <p> <?php echo $pret; ?>
-
-    </p>
-    <form method="get" action="cos.php">
-        
-    <button type="submit">Adauga in Cos</button>
-    </form>
-
-</div>
-<div id="descriere"> 
-<p> <?php echo $descriere; ?>
-
-    </p>
-</div>
-</div>
+        <?php
+          echo '<img onmouseenter="zoomIn()" onmouseleave="zoomOut()" class="imagine" id="img" src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
+        ?>
+      </div>
+      <div id="specificatii">
+        <span class="titlu">
+          <?php echo $titlu; ?>
+        </span>
+        <hr>
+        <span class="tip">  
+          <?php echo $tip; ?>
+        </span>
+        <hr>
+        <span class="pret">Pret: <?php echo $pret; ?> lei
+        </span>
+        <hr>
+        <form method="get" action="cos.php">
+          <button type="submit" class="buyButt">Adauga in Cos</button>
+        </form>
+        </div>
+      <div id="descriere"> 
+        <span> <?php echo $descriere; ?>
+        </span>
+      </div>
+    </div>
 
 
 
-  <div id="footer">
+    <div id="footer">
       <div class="footer_box">
         <span class="footer_titlu">Lilia Antique</span>
         <hr>
@@ -126,6 +131,38 @@ $row=mysqli_fetch_row($result);
         <img src="imagini\visa.svg" alt="visa" class="icon_card">
       </div>
     </div>
+
+    <script>
+      var img=document.getElementById('img');
+      var d1=document.getElementById('imagine');
+      var d2=document.getElementById('specificatii');
+      var img_zoom=document.getElementById('zoom_image');
+
+      function zoomIn() {
+        img_zoom.style.display="block";
+        var ratioH=img_zoom.style.height/img.style.height;
+        var ratioW=img_zoom.style.width/img.style.width;
+      }
+
+      function zoomOut() {
+        img_zoom.style.display="none";
+      }
+
+      function resizeImage() {
+        var l=document.body.scrollWidth;
+        var x=0.28*l;
+        var y=0.31*l;
+        img.style.width=x+"px";
+        img.style.height=x+"px";
+        img.style.marginTop=(y-x)/2+"px";
+        imagine.style.height=y+"px";
+        specificatii.style.height=y+"px";
+      }
+      
+      window.onload=resizeImage;
+      window.onresize=resizeImage;
+
+    </script>
 
 
   </body>
