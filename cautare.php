@@ -67,6 +67,9 @@ $db=mysqli_select_db($connection,'anticariat');
       <div class="filtru">
         <span class="num_filtru">Tip</span>
         <hr>
+        <input type="radio" name="tip" value="tot" checked>
+        <label for="tot">Toate tipurile<img src="imagini\deco.svg" class="icon_filter"></label>
+        <br>
         <input type="radio" name="tip" value="dec">
         <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
         <br>

@@ -63,6 +63,9 @@
       <div class="filtru">
         <span class="num_filtru">Tip</span>
         <hr>
+        <input type="radio" name="tip" value="tot" checked>
+        <label for="tot">Toate tipurile<img src="imagini\deco.svg" class="icon_filter"></label>
+        <br>
         <input type="radio" name="tip" value="dec">
         <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
         <br>
@@ -104,23 +107,28 @@ if($var_pret_min_slider!=0||$var_pret_max_slider!=5000){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider'); ";
+    afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider')AND tip like '%vase%'; ";
+    afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%mobilier%'; ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%altele%'; ";
+  afisare($sql,$connection);
 
 }
   
@@ -160,137 +168,166 @@ else if($var_tip=='alt'){
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200') AND tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200')AND tip like '%vase%'; ";
+    afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200') AND tip like '%mobilier%'; ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>'100' AND pret<='200') AND tip like '%altele%'; ";
+  afisare($sql,$connection);
 
 }
 }if($var_optiune_pret3!=-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='200' AND pret<='300'); ";
+    WHERE (pret>'200' AND pret<='300'); ";
+    afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='200' AND pret<='300') AND tip like '%decoratiuni%'; ";
+    WHERE (pret>'200' AND pret<='300') AND tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='200' AND pret<='300')AND tip like '%vase%'; ";
+    WHERE (pret>'200' AND pret<='300')AND tip like '%vase%'; ";
+    afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='200' AND pret<='300') AND tip like '%mobilier%'; ";
+    WHERE (pret>'200' AND pret<='300') AND tip like '%mobilier%'; ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-  WHERE (pret>='200' AND pret<='300') AND tip like '%altele%'; ";
+  WHERE (pret>'200' AND pret<='300') AND tip like '%altele%'; ";
+  afisare($sql,$connection);
 
 }
 }
 if($var_optiune_pret4!=-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='300' AND pret<='400'); ";
+    WHERE (pret>'300' AND pret<='400'); ";
+    afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='300' AND pret<='400') AND tip like '%decoratiuni%'; ";
+    WHERE (pret>'300' AND pret<='400') AND tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='300' AND pret<='400')AND tip like '%vase%'; ";
+    WHERE (pret>'300' AND pret<='400')AND tip like '%vase%'; ";
+    afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='300' AND pret<='400') AND tip like '%mobilier%'; ";
+    WHERE (pret>'300' AND pret<='400') AND tip like '%mobilier%'; ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='300' AND pret<='400') AND tip like '%altele%'; ";
+  afisare($sql,$connection);
 
 }
 }if($var_optiune_pret5!=-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='400' AND pret<='500'); ";
+    WHERE (pret>'400' AND pret<='500'); ";
+    afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='400' AND pret<='500') AND tip like '%decoratiuni%'; ";
+    WHERE (pret>'400' AND pret<='500') AND tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='400' AND pret<='500')AND tip like '%vase%'; ";
+    WHERE (pret>'400' AND pret<='500')AND tip like '%vase%'; ";
+    afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='400' AND pret<='500') AND tip like '%mobilier%'; ";
+    WHERE (pret>'400' AND pret<='500') AND tip like '%mobilier%'; ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-  WHERE (pret>='400' AND pret<='500') AND tip like '%altele%'; ";
+  WHERE (pret>'400' AND pret<='500') AND tip like '%altele%'; ";
+  afisare($sql,$connection);
 
 }
 }if($var_optiune_pret6!=-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='500' AND pret<='1000'); ";
+    WHERE (pret>'500' AND pret<='1000'); ";
+    afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='500' AND pret<='1000') AND tip like '%decoratiuni%'; ";
+    WHERE (pret>'500' AND pret<='1000') AND tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='500' AND pret<='1000')AND tip like '%vase%'; ";
+    WHERE (pret>'500' AND pret<='1000')AND tip like '%vase%'; ";
+    afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    WHERE (pret>='500' AND pret<='1000') AND tip like '%mobilier%'; ";
+    WHERE (pret>'500' AND pret<='1000') AND tip like '%mobilier%'; ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-  WHERE (pret>='500' AND pret<='1000') AND tip like '%altele%'; ";
+  WHERE (pret>'500' AND pret<='1000') AND tip like '%altele%'; ";
+  afisare($sql,$connection);
 
 }
 }if($var_optiune_pret7!=-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='1000'); ";
+    afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='1000' AND tip like '%decoratiuni%'); ";
+    afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='1000' AND tip like '%vase%'); ";
+    afisare($sql,$connection);
 
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE ( pret>='1000' AND tip like '%mobilier%'); ";
+    afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='1000' AND tip like '%altele%'); ";
+  afisare($sql,$connection);
 
 }
 }
