@@ -26,7 +26,7 @@
   </div>
 
   <div id="filtru_container">
-    <form method="POST">
+    <form method="GET" action="cautare_avansata.php">
       <div class="filtru">
         <span class="num_filtru">Pret</span>
         <hr>
@@ -62,6 +62,9 @@
       <div class="filtru">
         <span class="num_filtru">Tip</span>
         <hr>
+        <input type="radio" name="tip" value="tot" checked>
+        <label for="tot">Toate tipurile<img src="imagini\deco.svg" class="icon_filter"></label>
+        <br>
         <input type="radio" name="tip" value="dec">
         <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
         <br>
@@ -108,6 +111,8 @@
         while ($row=mysqli_fetch_array($query_run)){
       ?>
      <div class="card">
+     <form method="get" action="produs_selectat.php">
+    <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
                   <div class="img_prod">
                   <?php
                   echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
@@ -123,9 +128,10 @@
                       <span class="pretProd"><?php echo $row['pret'];?> lei</span>
                       <br>
                       <button type="button">Adauga in cos</button>
-                      <button type="button">Adauga in cos</button>
+                      <button type="submit">Detalii</button>
                     </div>
                   </div>
+                  </form>
                 </div>
       <?php
       }?>

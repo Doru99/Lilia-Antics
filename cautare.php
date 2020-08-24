@@ -1,10 +1,11 @@
 <html>
   <head>
-    <link rel="stylesheet" href="footer.css">
+  <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="card.css">
     <link rel="stylesheet" href="produse.css">
+    <link rel="stylesheet" href="filtru.css">
   </head>
   <body>
 
@@ -29,6 +30,61 @@ $db=mysqli_select_db($connection,'anticariat');
         </nav>
     </div>
 
+    <div id="filtru_container">
+    <form method="POST" action="cautare_avansata.php" >
+      <div class="filtru">
+        <span class="num_filtru">Pret</span>
+        <hr>
+        <span class="text_filtru">Pret minim:</span>
+        <input value="0" min="0" max="5000" step="1" type="range" name="lowp" id="low">
+        <span class="text_filtru">Pret maxim:</span>
+        <input value="5000" min="0" max="5000" step="1" type="range" name="highp" id="high">
+        <span class="text_filtru" id="interval">Interval: <span id="low_price"></span> lei - <span id="high_price"></span> lei</span>
+        <hr>
+        <div class="interval_pret">
+          <input type="checkbox" name="inter1" value="0">
+          <label for="inter1">0 - 100 lei</label>
+          <br>
+          <input type="checkbox" name="inter2" value="100">
+          <label for="inter1">100 lei - 200 lei</label>
+          <br>
+          <input type="checkbox" name="inter3" value="200">
+          <label for="inter1">200 lei - 300 lei</label>
+          <br>
+          <input type="checkbox" name="inter4" value="300">
+          <label for="inter1">300 lei - 400 lei</label>
+          <br>
+          <input type="checkbox" name="inter5" value="400">
+          <label for="inter1">400 lei - 500 lei</label>
+          <br>
+          <input type="checkbox" name="inter6" value="500">
+          <label for="inter1">500 lei - 1000 lei</label>
+          <br>
+          <input type="checkbox" name="inter7" value="1000">
+          <label for="inter1">1000+ lei</label>
+        </div>
+      </div>
+      <div class="filtru">
+        <span class="num_filtru">Tip</span>
+        <hr>
+        <input type="radio" name="tip" value="dec">
+        <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="vas">
+        <label for="vas">Vase<img src="imagini\vase.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="mob">
+        <label for="mob">Mobilier<img src="imagini\furniture.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="alt">
+        <label for="alt">Altul</label>
+      </div>
+      <button type="submit">Cauta</button>
+    </form>
+  </div>
+
+  </div>
+
 <?php
 $search=mysqli_real_escape_string($connection,$_POST['search']);
 
@@ -43,6 +99,10 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
         while ($row=mysqli_fetch_array($result)){
             ?>
              <div class="card">
+
+             <form method="get" action="produs_selectat.php">
+    <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
+
                   <div class="img_prod">
                   <?php
                   echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
@@ -58,8 +118,10 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
                       <span class="pretProd"><?php echo $row['pret'];?> lei</span>
                       <br>
                       <button type="button">Adauga in cos</button>
+                      <button type="submit">Detalii</button>
                     </div>
                   </div>
+        </form>
                 </div>
             <?php
             }?>
@@ -140,3 +202,26 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
 
   </body>
 </html>
+<script>
+      var x=document.getElementById("low");
+      var y=document.getElementById("high");
+      var dev1=document.getElementById("low_price");
+      var dev2=document.getElementById("high_price");
+      dev1.innerHTML=x.value;
+      dev2.innerHTML=y.value;
+
+      x.oninput=function() {
+        if (parseInt(x.value,10)>parseInt(y.value,10)) {
+        dev1.innerHTML=y.value;
+        dev2.innerHTML=this.value;
+      }
+        else dev1.innerHTML=this.value;
+      }
+      y.oninput=function() {
+        if (parseInt(x.value,10)>parseInt(y.value,10)) {
+          dev2.innerHTML=x.value;
+          dev1.innerHTML=this.value;
+        }
+        else dev2.innerHTML=this.value;
+      }
+  </script>
