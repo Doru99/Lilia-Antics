@@ -43,13 +43,14 @@
 
     <div id="content">
       <div id="imagine">
-        <div id="zoom_image">
+        <div id="pop_image">
+          <div id="close_pop" onclick="closePopUp()"></div>
           <?php
-            echo '<img src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
+            echo '<img id="pop_content" src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
           ?>
         </div>
         <?php
-          echo '<img onmouseenter="zoomIn()" onmouseleave="zoomOut()" class="imagine" id="img" src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
+          echo '<img onclick="popUpImage()" class="imagine" id="img" src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
         ?>
       </div>
       <div id="specificatii">
@@ -69,8 +70,49 @@
         </form>
         </div>
       <div id="descriere"> 
-        <span> <?php echo $descriere; ?>
-        </span>
+        <span class="titlu">Descriere</span>
+        <hr>
+        <span class="descProd"><?php echo $descriere;?></span>
+      </div>
+      <div id="slideshow_container">
+        <span class="titlu">Produse din aceiasi gama</span>
+        <hr>
+        <div id="previous" onclick="previousSlide()"></div>
+        <?php
+          $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+          WHERE tip LIKE '%$tip%' AND produse.idProdus != '$prod_id' ";
+          $result=mysqli_query($connection, $sql);
+          $index=0;
+          while ($row=mysqli_fetch_array($result)) {
+            ?>
+            <div class="card slide" onclick="hideSlide(); showSlide(<?php echo $index?>)">
+              <form method="get" action="produs_selectat.php">
+                <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
+                <div class="img_prod">
+                  <?php
+                    echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
+                  ?>
+                </div>
+                <div class="info_prod">
+                  <div class="text_prod">
+                    <span class="numProd"><?php echo $row['numProdus'];?></span>
+                    <span class="tipProd"><?php echo $row['tip'];?></span>
+                    <span class="descProd"><?php echo $row['descriere'];?></span>
+                  </div>
+                  <div class="com_prod">
+                    <span class="pretProd"><?php echo $row['pret'];?> lei</span>
+                    <br>
+                    <button type="button">Adauga in cos</button>
+                    <button type="submit">Detalii</button>
+                  </div>
+                </div>
+                </form>
+            </div>
+            <?php
+            $index++;
+          }
+        ?>
+        <div id="next" onclick="nextSlide()"></div>
       </div>
     </div>
 
@@ -132,35 +174,46 @@
       </div>
     </div>
 
+    <script src="resize.js"></script>
     <script>
-      var img=document.getElementById('img');
-      var d1=document.getElementById('imagine');
-      var d2=document.getElementById('specificatii');
-      var img_zoom=document.getElementById('zoom_image');
-
-      function zoomIn() {
-        img_zoom.style.display="block";
-        var ratioH=img_zoom.style.height/img.style.height;
-        var ratioW=img_zoom.style.width/img.style.width;
+      var slides=document.getElementsByClassName('slide');
+      //width: 20%;
+     // height: 64%;
+      var curSlide=0;
+      var maxSlides=3;
+      if (maxSlides>slides.length) {maxSlides=slides.length}
+      for (aux=curSlide; aux<maxSlides; aux++) {
+        slides[aux].style.width="20%";
+        slides[aux].style.height="64%";  
       }
 
-      function zoomOut() {
-        img_zoom.style.display="none";
+      function nextSlide() {
+        hideSlide()
+        curSlide=curSlide+1;
+        if (curSlide > slides.length-1) {curSlide=0;}
+        showSlide(curSlide);
       }
 
-      function resizeImage() {
-        var l=document.body.scrollWidth;
-        var x=0.28*l;
-        var y=0.31*l;
-        img.style.width=x+"px";
-        img.style.height=x+"px";
-        img.style.marginTop=(y-x)/2+"px";
-        imagine.style.height=y+"px";
-        specificatii.style.height=y+"px";
+      function previousSlide() {
+        hideSlide()
+        curSlide=curSlide-1;
+        if (curSlide < 0) {curSlide=slides.length-1;}
+        showSlide(curSlide);
       }
-      
-      window.onload=resizeImage;
-      window.onresize=resizeImage;
+
+      function showSlide(index) {
+        if (curSlide != index) {curSlide=index;}
+        for (aux=curSlide, i=0; i<maxSlides; aux++, i++) {
+          if (aux>slides.length-1) {aux=0;}
+          slides[aux].style.width="20%";
+          slides[aux].style.height="64%";}
+      }
+
+      function hideSlide() {
+        for (aux=0; aux<slides.length; aux++) {
+          slides[aux].style.width="0";
+          slides[aux].style.height="0";}
+      }
 
     </script>
 
