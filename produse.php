@@ -1,6 +1,37 @@
+<?php
+session_start();
+if(isset($_POST['add'])){
+//print_r($_POST['idProdus_cos']);
+if(isset($_SESSION['cart'])){
+  $itemi_din_cos=array_column($_SESSION['cart'],"idProdus_cos");
+  print_r($itemi_din_cos);
+
+  if(in_array($_POST['idProdus_cos'],$itemi_din_cos)){
+    //Modal ca e deja in cos...///
+      echo"<script>alert('Produsul este deja adaugat in cos')</script>";
+  }else{
+      $nr_itemi_in_cos=count($_SESSION['cart']);
+      $vector_produse_cos=array(
+        'idProdus_cos'=>$_POST['idProdus_cos']
+      );
+      $_SESSION['cart'][$nr_itemi_in_cos]=$vector_produse_cos;
+      print_r($_SESSION['cart']);
+  }
+
+}else{
+  $vector_produse_cos=array(
+    'idProdus_cos'=>$_POST['idProdus_cos']
+  );
+  $_SESSION['cart'][0]=$vector_produse_cos;
+  print_r($_SESSION['cart']);
+}
+
+}
+?>
+
 <html>
   <head>
-    <link rel="stylesheet" href="footer.css">
+  <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="card.css">
@@ -9,79 +40,86 @@
   </head>
   <body>
 
-    <div id="meniu_container">
-          <div class="search-container">
-              <form action="cautare.php" method="POST">
-              <input type="text" placeholder="Search.." name="search">
-              <button type="submit"><i class="fa fa-search"></i></button>
-              </form>
-          </div>
-          <nav class="meniu">
-              <ul class="main_meniu">
-                  <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-                  <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
-                  <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos</a></li> 
-              </ul>
-          </nav>
-    </div>
-
-    <div id="filtru_container">
-      <form method="GET" action="cautare_avansata.php">
-        <div class="filtru">
-          <span class="num_filtru">Pret</span>
-          <hr>
-          <span class="text_filtru">Pret minim:</span>
-          <input value="0" min="0" max="5000" step="1" type="range" name="lowp" id="low">
-          <span class="text_filtru">Pret maxim:</span>
-          <input value="5000" min="0" max="5000" step="1" type="range" name="highp" id="high">
-          <span class="text_filtru" id="interval">Interval: <span id="low_price"></span> lei - <span id="high_price"></span> lei</span>
-          <hr>
-          <div class="interval_pret">
-            <input type="checkbox" name="inter1" value="0">
-            <label for="inter1">0 - 100 lei</label>
-            <br>
-            <input type="checkbox" name="inter2" value="100">
-            <label for="inter1">100 lei - 200 lei</label>
-            <br>
-            <input type="checkbox" name="inter3" value="200">
-            <label for="inter1">200 lei - 300 lei</label>
-            <br>
-            <input type="checkbox" name="inter4" value="300">
-            <label for="inter1">300 lei - 400 lei</label>
-            <br>
-            <input type="checkbox" name="inter5" value="400">
-            <label for="inter1">400 lei - 500 lei</label>
-            <br>
-            <input type="checkbox" name="inter6" value="500">
-            <label for="inter1">500 lei - 1000 lei</label>
-            <br>
-            <input type="checkbox" name="inter7" value="1000">
-            <label for="inter1">1000+ lei</label>
-          </div>
+  <div id="meniu_container">
+        <div class="search-container">
+            <form action="cautare.php" method="POST">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
         </div>
-        <div class="filtru">
-          <span class="num_filtru">Tip</span>
-          <hr>
-          <input type="radio" name="tip" value="tot" checked>
-          <label for="tot">Toate tipurile<img src="imagini\deco.svg" class="icon_filter"></label>
+        <nav class="meniu">
+            <ul class="main_meniu">
+                <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
+                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
+
+                    if(isset($_SESSION['cart'])){
+                      $count=count($_SESSION['cart']);
+                      echo $count;
+                    }else echo "0";
+
+                ?>) </a></li> 
+            </ul>
+        </nav>
+  </div>
+
+  <div id="filtru_container">
+    <form method="GET" action="cautare_avansata.php">
+      <div class="filtru">
+        <span class="num_filtru">Pret</span>
+        <hr>
+        <span class="text_filtru">Pret minim:</span>
+        <input value="0" min="0" max="5000" step="1" type="range" name="lowp" id="low">
+        <span class="text_filtru">Pret maxim:</span>
+        <input value="5000" min="0" max="5000" step="1" type="range" name="highp" id="high">
+        <span class="text_filtru" id="interval">Interval: <span id="low_price"></span> lei - <span id="high_price"></span> lei</span>
+        <hr>
+        <div class="interval_pret">
+          <input type="checkbox" name="inter1" value="0">
+          <label for="inter1">0 - 100 lei</label>
           <br>
-          <input type="radio" name="tip" value="dec">
-          <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
+          <input type="checkbox" name="inter2" value="100">
+          <label for="inter1">100 lei - 200 lei</label>
           <br>
-          <input type="radio" name="tip" value="vas">
-          <label for="vas">Vase<img src="imagini\vase.svg" class="icon_filter"></label>
+          <input type="checkbox" name="inter3" value="200">
+          <label for="inter1">200 lei - 300 lei</label>
           <br>
-          <input type="radio" name="tip" value="mob">
-          <label for="mob">Mobilier<img src="imagini\furniture.svg" class="icon_filter"></label>
+          <input type="checkbox" name="inter4" value="300">
+          <label for="inter1">300 lei - 400 lei</label>
           <br>
-          <input type="radio" name="tip" value="alt">
-          <label for="alt">Altul</label>
+          <input type="checkbox" name="inter5" value="400">
+          <label for="inter1">400 lei - 500 lei</label>
+          <br>
+          <input type="checkbox" name="inter6" value="500">
+          <label for="inter1">500 lei - 1000 lei</label>
+          <br>
+          <input type="checkbox" name="inter7" value="1000">
+          <label for="inter1">1000+ lei</label>
         </div>
-        <button type="submit">Cauta</button>
-      </form>
-    </div>
+      </div>
+      <div class="filtru">
+        <span class="num_filtru">Tip</span>
+        <hr>
+        <input type="radio" name="tip" value="tot" checked>
+        <label for="tot">Toate tipurile<img src="imagini\deco.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="dec">
+        <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="vas">
+        <label for="vas">Vase<img src="imagini\vase.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="mob">
+        <label for="mob">Mobilier<img src="imagini\furniture.svg" class="icon_filter"></label>
+        <br>
+        <input type="radio" name="tip" value="alt">
+        <label for="alt">Altul</label>
+      </div>
+      <button type="submit">Cauta</button>
+    </form>
+  </div>
 
-
+  </div>
 
 
     <?php
@@ -92,12 +130,13 @@
       $results_per_page=18;
       $number_of_results=mysqli_num_rows($query_run);
       $number_of_pages=ceil($number_of_results/$results_per_page);
+
       if(!isset($_GET['page'])){
         $page=1;
 
-        }else{
-          $page=$_GET['page'];
-        }
+      }else{
+        $page=$_GET['page'];
+      }
 
       $this_page_first_result = ($page-1)*$results_per_page;
 
@@ -109,39 +148,43 @@
       <?php
         while ($row=mysqli_fetch_array($query_run)){
       ?>
-      <div class="card">
-        <form method="get" action="produs_selectat.php">
-          <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
-          <div class="img_prod">
-            <?php
-              echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
-            ?>
-          </div>
-          <div class="info_prod">
-            <div class="text_prod">
-              <span class="numProd"><?php echo $row['numProdus'];?></span>
-              <span class="tipProd"><?php echo $row['tip'];?></span>
-              <span class="descProd"><?php echo $row['descriere'];?></span>
-            </div>
-            <div class="com_prod">
-              <span class="pretProd"><?php echo $row['pret'];?> lei</span>
-              <br>
-              <button type="button">Adauga in cos</button>
-              <button type="submit">Detalii</button>
-            </div>
-          </div>
-        </form>
-      </div>
+     <div class="card">
+     
+    
+                  <div class="img_prod">
+                  <?php
+                  echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
+                  ?>
+                  </div>
+                  <div class="info_prod">
+                    <div class="text_prod">
+                      <span class="numProd"><?php echo $row['numProdus'];?></span>
+                      <span class="tipProd"><?php echo $row['tip'];?></span>
+                     
+                    </div>
+                    <div class="com_prod">
+                      <span class="pretProd"><?php echo $row['pret'];?> lei</span>
+                      <br>
+                      <form method="post" action="produse.php">
+                      
+    <input type="hidden" name="idProdus_cos" value="<?php echo $row['idProdus']; ?>">
+                      <button type="submit"name="add" id="buton1">Adauga in cos</button>
+                      </form>
+                      <form method="get" action="produs_selectat.php">
+                      <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
+                      <button type="submit" id="buton2">Detalii</button></form>
+                    </div>
+                  </div>
+                </div>
       <?php
-        }
-      ?>
+      }?>
     </div>
 
     <div class="pagination">
-      <?php
-        for($page=1;$page<=$number_of_pages;$page++){
-          echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
-        }?>
+    <?php
+    for($page=1;$page<=$number_of_pages;$page++){
+      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
+    }?>
     </div>
 
     <div id="footer">
@@ -212,19 +255,17 @@
         if (parseInt(x.value,10)>parseInt(y.value,10)) {
         dev1.innerHTML=y.value;
         dev2.innerHTML=this.value;
-        }
+      }
         else dev1.innerHTML=this.value;
       }
       y.oninput=function() {
         if (parseInt(x.value,10)>parseInt(y.value,10)) {
           dev2.innerHTML=x.value;
           dev1.innerHTML=this.value;
-          }
+        }
         else dev2.innerHTML=this.value;
       }
-
-      //alert(document.body.scrollWidth);
-    </script>
+  </script>
 
 
   </body>

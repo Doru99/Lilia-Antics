@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
   <head>
     <link rel="stylesheet" href="footer.css">
@@ -9,21 +12,28 @@
   <body>
 
 
-    <div id="meniu_container">
-      <div class="search-container">
-        <form action="cautare.php" method="POST">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
-      </div>
-      <nav class="meniu">
-        <ul class="main_meniu">
-            <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-            <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
-            <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos</a></li> 
-        </ul>
-      </nav>
-    </div>
+  <div id="meniu_container">
+        <div class="search-container">
+            <form action="cautare.php" method="POST">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <nav class="meniu">
+            <ul class="main_meniu">
+                <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
+                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
+
+                    if(isset($_SESSION['cart'])){
+                      $count=count($_SESSION['cart']);
+                      echo $count;
+                    }else echo "0";
+
+                ?>) </a></li> 
+            </ul>
+        </nav>
+  </div>
 
 
     <?php
@@ -33,6 +43,7 @@
       $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) where produse.idProdus='$prod_id'";
       $result=mysqli_query($connection,$query);
       $row=mysqli_fetch_row($result);
+      $id=$row[0];
       $titlu=$row[1];
       $tip=$row[2];
       $descriere=$row[3];
@@ -65,8 +76,9 @@
         <span class="pret">Pret: <?php echo $pret; ?> lei
         </span>
         <hr>
-        <form method="get" action="cos.php">
-          <button type="submit" class="buyButt">Adauga in Cos</button>
+        <form method="post" action="produse.php">
+        <input type="hidden" name="idProdus_cos" value="<?php $id?>">
+          <button type="submit" class="buyButt" name="add" >Adauga in Cos</button>
         </form>
         </div>
       <div id="descriere"> 
@@ -85,29 +97,34 @@
           $index=0;
           while ($row=mysqli_fetch_array($result)) {
             ?>
-            <div class="card slide" onclick="hideSlide(); showSlide(<?php echo $index?>)">
-              <form method="get" action="produs_selectat.php">
-                <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
-                <div class="img_prod">
-                  <?php
-                    echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
-                  ?>
-                </div>
-                <div class="info_prod">
-                  <div class="text_prod">
-                    <span class="numProd"><?php echo $row['numProdus'];?></span>
-                    <span class="tipProd"><?php echo $row['tip'];?></span>
-                    <span class="descProd"><?php echo $row['descriere'];?></span>
-                  </div>
-                  <div class="com_prod">
-                    <span class="pretProd"><?php echo $row['pret'];?> lei</span>
-                    <br>
-                    <button type="button">Adauga in cos</button>
-                    <button type="submit">Detalii</button>
-                  </div>
-                </div>
-                </form>
-            </div>
+           <div class="card slide" onclick="hideSlide(); showSlide(<?php echo $index?>)">
+     
+    
+     <div class="img_prod">
+     <?php
+     echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
+     ?>
+     </div>
+     <div class="info_prod">
+       <div class="text_prod">
+         <span class="numProd"><?php echo $row['numProdus'];?></span>
+         <span class="tipProd"><?php echo $row['tip'];?></span>
+        
+       </div>
+       <div class="com_prod">
+         <span class="pretProd"><?php echo $row['pret'];?> lei</span>
+         <br>
+         <form method="post" action="produse.php">
+         
+<input type="hidden" name="idProdus_cos" value="<?php echo $row['idProdus']; ?>">
+         <button type="submit"name="add" id="buton1">Adauga in cos</button>
+         </form>
+         <form method="get" action="produs_selectat.php">
+         <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
+         <button type="submit" id="buton2">Detalii</button></form>
+       </div>
+     </div>
+   </div>
             <?php
             $index++;
           }

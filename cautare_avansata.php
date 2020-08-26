@@ -1,3 +1,8 @@
+<?php
+session_start();
+$connection=mysqli_connect("localhost", "root","");
+$db=mysqli_select_db($connection,'anticariat');
+?>
 <html>
   <head>
   <link rel="stylesheet" href="footer.css">
@@ -19,12 +24,19 @@
         </div>
         <nav class="meniu">
             <ul class="main_meniu">
-                <li><a href="contact.html" class="meniu_page">Acasa</a></li>
-                <li class="active"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li  ><a href="cos.php" class="meniu_page">Cos</a></li> 
+                <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
+                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
+
+                    if(isset($_SESSION['cart'])){
+                      $count=count($_SESSION['cart']);
+                      echo $count;
+                    }else echo "0";
+
+                ?>) </a></li> 
             </ul>
         </nav>
-    </div>
+  </div>
 
     <div id="filtru_container">
     <form method="GET" action="cautare_avansata.php" >
@@ -90,10 +102,19 @@
 <?php
 $connection=mysqli_connect("localhost", "root","");
 $db=mysqli_select_db($connection,'anticariat');
+
 $var_pret_min_slider=isset($_GET['lowp']) ? $_GET['lowp']:'0';
 $var_pret_max_slider=isset($_GET['highp']) ? $_GET['highp']:'5000';
-$var_tip=$_GET['tip'];
 
+if($var_pret_min_slider>$var_pret_max_slider){
+$temp=$var_pret_min_slider;
+$var_pret_min_slider=$var_pret_max_slider;
+$var_pret_max_slider=$temp;
+}
+
+
+
+$var_tip=$_GET['tip'];
 $var_optiune_pret1 = isset($_GET['inter1']) ? $_GET['inter1']:'-1';
 $var_optiune_pret2 = isset($_GET['inter2']) ? $_GET['inter2']:'-1';
 $var_optiune_pret3 = isset($_GET['inter3']) ? $_GET['inter3']:'-1';
@@ -101,6 +122,37 @@ $var_optiune_pret4 = isset($_GET['inter4']) ? $_GET['inter4']:'-1';
 $var_optiune_pret5 = isset($_GET['inter5']) ? $_GET['inter5']:'-1';
 $var_optiune_pret6 = isset($_GET['inter6']) ? $_GET['inter6']:'-1';
 $var_optiune_pret7 = isset($_GET['inter7']) ? $_GET['inter7']:'-1';
+
+if($var_pret_min_slider==0&&$var_pret_max_slider==5000&&$var_optiune_pret1==-1&&$var_optiune_pret2==-1&&$var_optiune_pret3==-1&&$var_optiune_pret4==-1&&$var_optiune_pret5==-1&&$var_optiune_pret6==-1&&$var_optiune_pret7==-1){
+  if($var_tip=='tot'){
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    ; ";
+    afisare($sql,$connection);
+  }else if($var_tip=='dec'){
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE  tip like '%decoratiuni%'; ";
+    afisare($sql,$connection);
+
+  }else if($var_tip=='vas'){
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE  tip like '%vase%'; ";
+    afisare($sql,$connection);
+
+  }
+   else if($var_tip=='mob'){
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE  tip like '%mobilier%'; ";
+    afisare($sql,$connection);
+
+}
+else if($var_tip=='alt'){
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE  tip like '%altele%'; ";
+  afisare($sql,$connection);
+
+}
+}
+
 
 
 if($var_pret_min_slider!=0||$var_pret_max_slider!=5000){
@@ -335,6 +387,12 @@ else if($var_tip=='alt'){
 ?>
 </div>
 
+<div class="pagination">
+    <?php
+    for($page=1;$page<=$number_of_pages;$page++){
+      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
+    }?>
+    </div>
 
 
 
@@ -437,30 +495,35 @@ $queryResult=mysqli_num_rows($result);
         while ($row=mysqli_fetch_array($result)){
             ?>
              <div class="card">
+     
+    
+     <div class="img_prod">
+     <?php
+     echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
+     ?>
+     </div>
+     <div class="info_prod">
+       <div class="text_prod">
+         <span class="numProd"><?php echo $row['numProdus'];?></span>
+         <span class="tipProd"><?php echo $row['tip'];?></span>
+        
+       </div>
+       <div class="com_prod">
+         <span class="pretProd"><?php echo $row['pret'];?> lei</span>
+         <br>
+         <form method="post" action="produse.php">
+         
+<input type="hidden" name="idProdus_cos" value="<?php echo $row['idProdus']; ?>">
+         <button type="submit"name="add" id="buton1">Adauga in cos</button>
+         </form>
+         <form method="get" action="produs_selectat.php">
+         <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
+         <button type="submit" id="buton2">Detalii</button></form>
+       </div>
+     </div>
+   </div>
 
-             <form method="get" action="produs_selectat.php">
-    <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
 
-                  <div class="img_prod">
-                  <?php
-                  echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
-                  ?>
-                  </div>
-                  <div class="info_prod">
-                    <div class="text_prod">
-                      <span class="numProd"><?php echo $row['numProdus'];?></span>
-                      <span class="tipProd"><?php echo $row['tip'];?></span>
-                      <span class="descProd"><?php echo $row['descriere'];?></span>
-                    </div>
-                    <div class="com_prod">
-                      <span class="pretProd"><?php echo $row['pret'];?> lei</span>
-                      <br>
-                      <button type="button">Adauga in cos</button>
-                      <button type="submit">Detalii</button>
-                    </div>
-                  </div>
-        </form>
-                </div>
             <?php
             }?>
 <?php

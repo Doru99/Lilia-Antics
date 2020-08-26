@@ -10,11 +10,12 @@
   <body>
 
 <?php
+session_start();
 $connection=mysqli_connect("localhost", "root","");
 $db=mysqli_select_db($connection,'anticariat');
 ?>
 
-  <div id="meniu_container">
+<div id="meniu_container">
         <div class="search-container">
             <form action="cautare.php" method="POST">
             <input type="text" placeholder="Search.." name="search">
@@ -23,12 +24,19 @@ $db=mysqli_select_db($connection,'anticariat');
         </div>
         <nav class="meniu">
             <ul class="main_meniu">
-                <li><a href="contact.html" class="meniu_page">Acasa</a></li>
-                <li class="active"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li  ><a href="cos.php" class="meniu_page">Cos</a></li> 
+                <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
+                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
+
+                    if(isset($_SESSION['cart'])){
+                      $count=count($_SESSION['cart']);
+                      echo $count;
+                    }else echo "0";
+
+                ?>) </a></li> 
             </ul>
         </nav>
-    </div>
+  </div>
 
     <div id="filtru_container">
     <form method="GET" action="cautare_avansata.php" >
@@ -96,16 +104,21 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
             WHERE (produse.numProdus like '%$search%')OR (produse.tip like'%$search%')OR (produse.descriere like '%$search%')OR (produse.pret like '%$search%') ";
     $result=mysqli_query($connection,$query);
     $queryResult=mysqli_num_rows($result);
+
+      
+
+
+
     if($queryResult>0){?>
         <div id="container">
             <?php
         while ($row=mysqli_fetch_array($result)){
             ?>
+
+
              <div class="card">
-
-             <form method="get" action="produs_selectat.php">
-    <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
-
+     
+    
                   <div class="img_prod">
                   <?php
                   echo '<img src="data:image;base64,'.base64_encode($row['poza']).'"alt="Poza">';
@@ -115,16 +128,21 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
                     <div class="text_prod">
                       <span class="numProd"><?php echo $row['numProdus'];?></span>
                       <span class="tipProd"><?php echo $row['tip'];?></span>
-                      <span class="descProd"><?php echo $row['descriere'];?></span>
+                    
                     </div>
                     <div class="com_prod">
                       <span class="pretProd"><?php echo $row['pret'];?> lei</span>
                       <br>
-                      <button type="button">Adauga in cos</button>
-                      <button type="submit">Detalii</button>
+                      <form method="post" action="produse.php">
+                      
+    <input type="hidden" name="idProdus_cos" value="<?php echo $row['idProdus']; ?>">
+                      <button type="submit"name="add" id="buton1">Adauga in cos</button>
+                      </form>
+                      <form method="get" action="produs_selectat.php">
+                      <input type="hidden" name="idProdus" value="<?php echo $row['idProdus']; ?>">
+                      <button type="submit" id="buton2">Detalii</button></form>
                     </div>
                   </div>
-        </form>
                 </div>
             <?php
             }?>
@@ -140,6 +158,13 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
 
 ?>
 </div>
+
+<div class="pagination">
+    <?php
+    for($page=1;$page<=$number_of_pages;$page++){
+      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
+    }?>
+    </div>
 
 
 
