@@ -126,3 +126,29 @@ body{
     text-decoration: none;
     color:white;
 }
+
+.soft-pagination{
+    width: 100%;
+text-align:center;
+background: rgb(87,23,171);
+background: linear-gradient(90deg, rgba(87,23,171,1) 0%, rgba(246,0,255,1) 100%);
+margin-top:350px;width:100%;
+-webkit-box-shadow: 1px 7px 14px 0px rgba(189,178,189,1);
+-moz-box-shadow: 1px 7px 14px 0px rgba(189,178,189,1);
+box-shadow: 1px 7px 14px 0px rgba(189,178,189,1);  
+}
+.soft-pagination-items{
+color: #ffffff;cursor: pointer; 
+}
+.soft-pagination-items li{
+display: inline-block;
+padding: 15px 25px;font-weight: 800;
+clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+.soft-pagination-items li.active{
+background:  #77f2de; color:#000;
+}
+.soft-pagination-items li:hover{
+background: linear-gradient(120deg, rgba(87,23,171,1) 100%, rgba(246,0,255,1) 10%);
+color:#f288cb;
+}

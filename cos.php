@@ -10,6 +10,7 @@ $db=mysqli_select_db($connection,'anticariat');
     <link rel="stylesheet" href="produse.css">
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
   </head>
   <body>
 
@@ -38,7 +39,46 @@ $db=mysqli_select_db($connection,'anticariat');
         </nav>
   </div>
 
-    
+  
+<div class="container">
+  <table id="cart" class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th style="width:50%">Produs</th>
+        <th style="width:10%">Pret</th>
+        <th style="width:22%" class="text-center">Subtotal</th>
+        <th style="width:10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-th="Product">
+          <div class="row">
+            <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive" /></div>
+            <div class="col-sm-10">
+              <h4 class="nomargin">TITLU PRODUS</h4>
+            </div>
+          </div>
+        </td>
+        <td data-th="Price">PRET PRODUS</td>
+        <td class="actions" data-th="">
+          <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="visible-xs">
+        <td class="text-center"><strong>TOTAL COS</strong></td>
+      </tr>
+      <tr>
+        <td><a href="produse.php" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+        <td colspan="2" class="hidden-xs"></td>
+        <td class="hidden-xs text-center"><strong>Total $ 5.11</strong></td>
+        <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
 
 
 

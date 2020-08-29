@@ -122,32 +122,51 @@ $var_optiune_pret4 = isset($_GET['inter4']) ? $_GET['inter4']:'-1';
 $var_optiune_pret5 = isset($_GET['inter5']) ? $_GET['inter5']:'-1';
 $var_optiune_pret6 = isset($_GET['inter6']) ? $_GET['inter6']:'-1';
 $var_optiune_pret7 = isset($_GET['inter7']) ? $_GET['inter7']:'-1';
+$results_per_page=18;
 
 if($var_pret_min_slider==0&&$var_pret_max_slider==5000&&$var_optiune_pret1==-1&&$var_optiune_pret2==-1&&$var_optiune_pret3==-1&&$var_optiune_pret4==-1&&$var_optiune_pret5==-1&&$var_optiune_pret6==-1&&$var_optiune_pret7==-1){
   if($var_tip=='tot'){
-    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
-    ; ";
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE  tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE  tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE  tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE  tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE  tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE  tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE  tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE  tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -159,27 +178,47 @@ if($var_pret_min_slider!=0||$var_pret_max_slider!=5000){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -188,27 +227,47 @@ else if($var_tip=='alt'){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='0' AND pret<='100'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='0' AND pret<='100') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='0' AND pret<='100') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='0' AND pret<='100') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='0' AND pret<='100')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='0' AND pret<='100')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='0' AND pret<='100') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='0' AND pret<='100') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='0' AND pret<='100') AND tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>='0' AND pret<='100') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -216,27 +275,47 @@ else if($var_tip=='alt'){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'100' AND pret<='200') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'100' AND pret<='200') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'100' AND pret<='200')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'100' AND pret<='200') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'100' AND pret<='200') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>'100' AND pret<='200') AND tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>'100' AND pret<='200') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -244,27 +323,55 @@ else if($var_tip=='alt'){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'200' AND pret<='300'); ";
+$number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+$this_page_first_result=paginatie($sql,$connection,$results_per_page);
+
+$sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+WHERE (pret>'200' AND pret<='300') LIMIT " . $this_page_first_result.','.$results_per_page;
+
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'200' AND pret<='300') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+      $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+
+      $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+      WHERE (pret>'200' AND pret<='300') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'200' AND pret<='300')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'200' AND pret<='300')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
+
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'200' AND pret<='300') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+   
+      $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'200' AND pret<='300') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>'200' AND pret<='300') AND tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+
+ $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>'200' AND pret<='300') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
+
   afisare($sql,$connection);
 
 }
@@ -273,27 +380,48 @@ if($var_optiune_pret4!=-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'300' AND pret<='400'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'300' AND pret<='400') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'300' AND pret<='400') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'300' AND pret<='400') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'300' AND pret<='400')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'300' AND pret<='400')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'300' AND pret<='400') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'300' AND pret<='400') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='300' AND pret<='400') AND tip like '%altele%'; ";
+$number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+$this_page_first_result=paginatie($sql,$connection,$results_per_page);
+
+$sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>='300' AND pret<='400') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -301,27 +429,47 @@ else if($var_tip=='alt'){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'400' AND pret<='500'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'400' AND pret<='500') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'400' AND pret<='500') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'400' AND pret<='500') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'400' AND pret<='500')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'400' AND pret<='500')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'400' AND pret<='500') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'400' AND pret<='500') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>'400' AND pret<='500') AND tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>'400' AND pret<='500') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -329,27 +477,47 @@ else if($var_tip=='alt'){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'500' AND pret<='1000'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'500' AND pret<='1000') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'500' AND pret<='1000') AND tip like '%decoratiuni%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'500' AND pret<='1000') AND tip like '%decoratiuni%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'500' AND pret<='1000')AND tip like '%vase%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'500' AND pret<='1000')AND tip like '%vase%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>'500' AND pret<='1000') AND tip like '%mobilier%'; ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>'500' AND pret<='1000') AND tip like '%mobilier%' LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>'500' AND pret<='1000') AND tip like '%altele%'; ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>'500' AND pret<='1000') AND tip like '%altele%' LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -357,15 +525,27 @@ else if($var_tip=='alt'){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='1000'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='1000') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
   }else if($var_tip=='dec'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='1000' AND tip like '%decoratiuni%'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='1000' AND tip like '%decoratiuni%') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
   }else if($var_tip=='vas'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='1000' AND tip like '%vase%'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (pret>='1000' AND tip like '%vase%') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 
@@ -373,12 +553,20 @@ else if($var_tip=='alt'){
    else if($var_tip=='mob'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE ( pret>='1000' AND tip like '%mobilier%'); ";
+    $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+    $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+    $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE ( pret>='1000' AND tip like '%mobilier%') LIMIT " . $this_page_first_result.','.$results_per_page;
     afisare($sql,$connection);
 
 }
 else if($var_tip=='alt'){
   $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
   WHERE (pret>='1000' AND tip like '%altele%'); ";
+  $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
+  $this_page_first_result=paginatie($sql,$connection,$results_per_page);
+  $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+  WHERE (pret>='1000' AND tip like '%altele%') LIMIT " . $this_page_first_result.','.$results_per_page;
   afisare($sql,$connection);
 
 }
@@ -387,13 +575,17 @@ else if($var_tip=='alt'){
 ?>
 </div>
 
-<div class="pagination">
-    <?php
-    for($page=1;$page<=$number_of_pages;$page++){
-      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
-    }?>
-    </div>
 
+    <div class="soft-pagination">
+    <ul class="soft-pagination-items">
+      <li> <i class="fa fa-chevron-circle-left" style="font-size:20px;color:white"></i></li>
+      <?php
+    for($page=1;$page<=$number_of_pages;$page++){
+      echo '<li><a href="cautare_avansata.php?page=' . $page . '&tip=' .$var_tip . '">' . $page . '</a></li>';
+    }?>
+       <li> <i class="fa fa-chevron-circle-right" style="font-size:20px;color:white;"></i></li>
+    </ul>
+</div>
 
 
 
@@ -533,3 +725,38 @@ $queryResult=mysqli_num_rows($result);
 
 ?>
   <?php } ?>
+
+  <?php 
+
+  function paginatie($sql,$connection,$results_per_page){
+
+    $query_run=mysqli_query($connection,$sql);
+    $number_of_results=mysqli_num_rows($query_run);
+    $number_of_pages=ceil($number_of_results/$results_per_page);
+   
+    if(!isset($_GET['page'])){
+      $page=1;
+   
+    }else{
+      $page=$_GET['page'];
+    }
+   
+    $this_page_first_result = ($page-1)*$results_per_page;
+
+      return $this_page_first_result;
+
+  }
+  
+  ?>
+<?php
+function number_of_pages($sql,$connection,$results_per_page){
+
+$query_run=mysqli_query($connection,$sql);
+$number_of_results=mysqli_num_rows($query_run);
+$number_of_pages=ceil($number_of_results/$results_per_page);
+
+  return $number_of_pages;
+
+}
+
+?>

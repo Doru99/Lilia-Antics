@@ -17,7 +17,7 @@ $db=mysqli_select_db($connection,'anticariat');
 
 <div id="meniu_container">
         <div class="search-container">
-            <form action="cautare.php" method="POST">
+            <form action="cautare.php" method="request">
             <input type="text" placeholder="Search.." name="search">
             <button type="submit"><i class="fa fa-search"></i></button>
             </form>
@@ -97,16 +97,30 @@ $db=mysqli_select_db($connection,'anticariat');
   </div>
 
 <?php
-$search=mysqli_real_escape_string($connection,$_POST['search']);
+$search=mysqli_real_escape_string($connection,$_REQUEST['search']);
 
-if(isset($_POST['submit-search'])||isset($_POST['search'])){
+if(isset($_POST['submit-search'])||isset($_REQUEST['search'])){
      $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
             WHERE (produse.numProdus like '%$search%')OR (produse.tip like'%$search%')OR (produse.descriere like '%$search%')OR (produse.pret like '%$search%') ";
     $result=mysqli_query($connection,$query);
     $queryResult=mysqli_num_rows($result);
 
-      
+    $results_per_page=18;
+    $number_of_results=mysqli_num_rows($result);
+    $number_of_pages=ceil($number_of_results/$results_per_page);
 
+    if(!isset($_GET['page'])){
+      $page=1;
+
+    }else{
+      $page=$_GET['page'];
+    }
+
+    $this_page_first_result = ($page-1)*$results_per_page;
+    $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
+    WHERE (produse.numProdus like '%$search%')OR (produse.tip like'%$search%')OR (produse.descriere like '%$search%')OR (produse.pret like '%$search%')  LIMIT " . $this_page_first_result.','.$results_per_page;
+$result=mysqli_query($connection,$query);
+$queryResult=mysqli_num_rows($result);
 
 
     if($queryResult>0){?>
@@ -159,13 +173,18 @@ if(isset($_POST['submit-search'])||isset($_POST['search'])){
 ?>
 </div>
 
-<div class="pagination">
-    <?php
-    for($page=1;$page<=$number_of_pages;$page++){
-      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
-    }?>
-    </div>
 
+    
+    <div class="soft-pagination">
+    <ul class="soft-pagination-items">
+      <li> <i class="fa fa-chevron-circle-left" style="font-size:20px;color:white"></i></li>
+      <?php
+    for($page=1;$page<=$number_of_pages;$page++){
+      echo '<li><a href="cautare.php?page=' . $page . '&search=' .$search . '">' . $page . '</a></li>';
+    }?>
+       <li> <i class="fa fa-chevron-circle-right" style="font-size:20px;color:white;"></i></li>
+    </ul>
+</div>
 
 
 

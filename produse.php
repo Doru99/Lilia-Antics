@@ -180,12 +180,17 @@ if(isset($_SESSION['cart'])){
       }?>
     </div>
 
-    <div class="pagination">
-    <?php
+
+    <div class="soft-pagination">
+    <ul class="soft-pagination-items">
+      <li> <i class="fa fa-chevron-circle-left" style="font-size:20px;color:white"></i></li>
+      <?php
     for($page=1;$page<=$number_of_pages;$page++){
-      echo '<a href="produse.php?page=' . $page . '">' . $page . '</a>';
+      echo '<li><a href="produse.php?page=' . $page . '">' . $page . '</a></li>';
     }?>
-    </div>
+       <li> <i class="fa fa-chevron-circle-right" style="font-size:20px;color:white;"></i></li>
+    </ul>
+</div>
 
     <div id="footer">
       <div class="footer_box">
