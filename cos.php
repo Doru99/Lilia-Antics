@@ -10,6 +10,7 @@ $db=mysqli_select_db($connection,'anticariat');
     <link rel="stylesheet" href="produse.css">
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="cos.css">
    
   </head>
   <body>
@@ -26,8 +27,8 @@ $db=mysqli_select_db($connection,'anticariat');
         <nav class="meniu">
             <ul class="main_meniu">
                 <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
+                <li onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li class="active" onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
 
                     if(isset($_SESSION['cart'])){
                       $count=count($_SESSION['cart']);
@@ -40,43 +41,46 @@ $db=mysqli_select_db($connection,'anticariat');
   </div>
 
   
-<div class="container">
-  <table id="cart" class="table table-hover table-condensed">
+<div id="container">
+  <table id="cos">
     <thead>
       <tr>
-        <th style="width:50%">Produs</th>
-        <th style="width:10%">Pret</th>
-        <th style="width:22%" class="text-center">Subtotal</th>
-        <th style="width:10%"></th>
+        <th colspan="2">Produs</th>
+        <th>Pret unitar</th>
+        <th>Sterge</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td data-th="Product">
-          <div class="row">
-            <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive" /></div>
-            <div class="col-sm-10">
-              <h4 class="nomargin">TITLU PRODUS</h4>
-            </div>
-          </div>
+        <td width="15%">
+        <img class="prod_img">
         </td>
-        <td data-th="Price">PRET PRODUS</td>
-        <td class="actions" data-th="">
-          <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+        <td width="65%" class="info-cos">
+          <span class="titlu-prod">SF900</span>
+          <span class="tip-prod">Ferrari</span>
+          <span class="desc-prod">O masina de F1 trasa de 2 cai cca 1950.</span>
         </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr class="visible-xs">
-        <td class="text-center"><strong>TOTAL COS</strong></td>
+        <td width="10%">
+          <span class="pret-prod">150</span>
+          <span class="pret-prod">lei</span>
+        </td>
+        <td style="text-align:center;" width="10%">
+        <button class="fa fa-remove"></button>
+        </td> 
       </tr>
       <tr>
-        <td><a href="produse.php" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-        <td colspan="2" class="hidden-xs"></td>
-        <td class="hidden-xs text-center"><strong>Total $ 5.11</strong></td>
-        <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+        <td colspan="3">
+          <span class="pret-tot">
+            Pret total:
+            150 lei
+          </span>
+        </td>
+        <td>
+          <form method="POST">
+            <button class="checkout" type="submit">Comanda <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+          </form>
       </tr>
-    </tfoot>
+    </tbody>
   </table>
 </div>
 

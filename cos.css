@@ -1,0 +1,107 @@
+#cos{
+    margin-left: 20%;
+    width: 60%;
+    border-spacing:0;
+}
+
+#cos thead{
+    background-color: #099c95;
+    color: white;
+    clip-path: polygon(1% 0, 99% 0, 100% 100%, 0% 100%);
+    shape-outside: polygon(1% 0, 99% 0, 100% 100%, 0% 100%);
+}
+
+#cos tr th{
+    border:1px solid white;
+}
+
+
+#cos td {
+    position: relative;
+    border-left: 1px dotted rgba(0,0,0,0.5);
+    border-bottom: 1px dotted rgba(0,0,0,0.5);
+}
+
+#cos tr td:first-child{
+    border-left:1px solid rgba(0,0,0,0.5);
+}
+
+#cos tr:last-child td{
+    border-bottom:1px solid rgba(0,0,0,0.5);
+}
+
+#cos tr td:last-child{
+    border-right:1px solid rgba(0,0,0,0.5);
+}
+
+/*#cos tr:last-child td:last-child{
+    padding:0;
+}*/
+
+.prod_img{
+    background-color: grey;
+    width: 90%;
+    height: 150px;
+    margin:5% 0 0 5%;
+}
+
+.info-cos{
+    vertical-align: top;
+}
+
+.titlu-prod{
+    font-family: 'Bentham', serif;
+    color: #474747;
+}
+
+.titlu-prod,
+.tip-prod,
+.desc-prod,
+.pret-prod,
+.pret-tot{
+    display: block;
+    padding: 2%;
+}
+
+.tip-prod{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #6F4C38;
+}
+
+.desc-prod{
+    font-family: 'Bentham', serif;
+}
+
+.pret-prod{
+    font-family: 'Suranna', serif;
+    text-align: center;
+}
+
+.pret-tot{
+    text-align: right;
+    font-family: 'Suranna', serif;
+}
+
+.checkout{
+    height: 30px;
+    background-color: #329680;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.5s all;
+}
+
+.checkout:hover{
+    background-color: #143c33;
+    box-shadow: 4px 8px 10px rgba(0,0,0,0.3);
+}
+
+form{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
