@@ -2,10 +2,22 @@
 $connection=mysqli_connect("localhost", "root","");
 $db=mysqli_select_db($connection,'anticariat');
 
+if(isset($_POST['remove'])){
+  if($_GET['action']=='remove'){
+    foreach($_SESSION['cart'] as $key=>$value){
+      if($value["idProdus_cos"]==$_GET['id']){
+        unset($_SESSION['cart'][$key]);
+        echo"<script>window.location='cos.php'</script>";
+      }
+    }
+  }
+}
+
 ?>
 
 <html>
   <head>
+  <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="produse.css">
     <link rel="stylesheet" href="myMenu.css">
@@ -51,28 +63,34 @@ $db=mysqli_select_db($connection,'anticariat');
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td width="15%">
-        <img class="prod_img">
-        </td>
-        <td width="65%" class="info-cos">
-          <span class="titlu-prod">SF900</span>
-          <span class="tip-prod">Ferrari</span>
-          <span class="desc-prod">O masina de F1 trasa de 2 cai cca 1950.</span>
-        </td>
-        <td width="10%">
-          <span class="pret-prod">150</span>
-          <span class="pret-prod">lei</span>
-        </td>
-        <td style="text-align:center;" width="10%">
-        <button class="fa fa-remove"></button>
-        </td> 
-      </tr>
+    <?php
+    $total =0;
+      if(isset($_SESSION['cart'])){
+      $idProd=array_column($_SESSION['cart'],'idProdus_cos');
+      $query="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus) ;";
+      $query_run=mysqli_query($connection,$query);
+      while ($row=mysqli_fetch_array($query_run)){
+        foreach($idProd as $id){
+            if($row['idProdus']==$id){
+              cartElement($row['poza'],$row['numProdus'],$row['pret'],$row['idProdus'],$row['tip']);
+              $total+=(int)$row['pret'];
+            }
+        }
+      }
+    }else{
+      echo "Nu aveti produse in cos";
+    }
+      ?>
       <tr>
         <td colspan="3">
           <span class="pret-tot">
-            Pret total:
-            150 lei
+          <?php
+           if(isset($_SESSION['cart'])){
+             $count=count($_SESSION['cart']);
+             echo "Pretul pentru ($count obiecte) este de $total lei";
+           }else{ echo "Pretul (0 obiecte) este de 0 lei";}
+
+           ?>
           </span>
         </td>
         <td>
@@ -84,7 +102,7 @@ $db=mysqli_select_db($connection,'anticariat');
   </table>
 </div>
 
-
+<button id="checkout-button">Checkout</button>
 
 
 
@@ -144,7 +162,7 @@ $db=mysqli_select_db($connection,'anticariat');
         <img src="imagini\visa.svg" alt="visa" class="icon_card">
       </div>
     </div>
-
+           
 
   </body>
 </html>
@@ -153,35 +171,33 @@ $db=mysqli_select_db($connection,'anticariat');
 
 <?php
 
-function cartElement($productimg, $productname, $productprice, $productid){
-  $element = "
-  
-  <form action=\"cart.php?action=remove&id=$productid\" method=\"post\" class=\"cart-items\">
-                  <div class=\"border rounded\">
-                      <div class=\"row bg-white\">
-                          <div class=\"col-md-3 pl-0\">
-                              <img src=$productimg alt=\"Image1\" class=\"img-fluid\">
-                          </div>
-                          <div class=\"col-md-6\">
-                              <h5 class=\"pt-2\">$productname</h5>
-                              <small class=\"text-secondary\">Seller: dailytuition</small>
-                              <h5 class=\"pt-2\">$$productprice</h5>
-                              <button type=\"submit\" class=\"btn btn-warning\">Save for Later</button>
-                              <button type=\"submit\" class=\"btn btn-danger mx-2\" name=\"remove\">Remove</button>
-                          </div>
-                          <div class=\"col-md-3 py-5\">
-                              <div>
-                                  <button type=\"button\" class=\"btn bg-light border rounded-circle\"><i class=\"fas fa-minus\"></i></button>
-                                  <input type=\"text\" value=\"1\" class=\"form-control w-25 d-inline\">
-                                  <button type=\"button\" class=\"btn bg-light border rounded-circle\"><i class=\"fas fa-plus\"></i></button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </form>
-  
-  ";
-  echo  $element;
+function cartElement($poza, $numeProd, $pret, $idProd,$tip){
+echo '<tr>';
+echo '<td width="15%">';
+echo '<img class="prod_img" src="data:image;base64,'.base64_encode($poza).'"alt="Poza">';
+echo '</td>';
+echo '<td width="65%" class="info-cos">';
+echo '<span class="titlu-prod">';
+echo $numeProd;
+echo '</span>';
+echo '<span class="tip-prod">';
+echo $tip;
+echo '</span>';
+echo '</td>';
+echo '<td width="10%">';
+echo '<span class="pret-prod">';
+echo $pret;
+echo '</span>';
+echo '<span class="pret-prod">lei</span>';
+echo '</td>';
+echo '<td style="text-align:center;" width="10%">';
+echo '<form method="post" action="cos.php?action=remove&id=';
+echo $idProd;
+echo '">';
+echo '<button type="submit" class="fa fa-remove" name="remove"></button>';
+echo '</form>';
+echo '</td>';
+echo '</tr>';
 }
 
 ?>

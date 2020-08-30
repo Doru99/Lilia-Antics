@@ -4,7 +4,7 @@ if(isset($_POST['add'])){
 //print_r($_POST['idProdus_cos']);
 if(isset($_SESSION['cart'])){
   $itemi_din_cos=array_column($_SESSION['cart'],"idProdus_cos");
-  print_r($itemi_din_cos);
+  
 
   if(in_array($_POST['idProdus_cos'],$itemi_din_cos)){
     //Modal ca e deja in cos...///
@@ -15,7 +15,7 @@ if(isset($_SESSION['cart'])){
         'idProdus_cos'=>$_POST['idProdus_cos']
       );
       $_SESSION['cart'][$nr_itemi_in_cos]=$vector_produse_cos;
-      print_r($_SESSION['cart']);
+      
   }
 
 }else{
@@ -23,7 +23,7 @@ if(isset($_SESSION['cart'])){
     'idProdus_cos'=>$_POST['idProdus_cos']
   );
   $_SESSION['cart'][0]=$vector_produse_cos;
-  print_r($_SESSION['cart']);
+  
 }
 
 }
