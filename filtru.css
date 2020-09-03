@@ -1,6 +1,7 @@
 body {
   --progress-color: #329680;
   --fill-color: #999999;
+  --height: 
 }
 
 #filtru_container {
@@ -23,10 +24,12 @@ body {
 
 .filtru:first-child{
   height: 55%;
+  min-height: 500px;
 }
 
 .filtru:nth-child(2){
   height: 25%;
+  min-height: 250px;
 }
 
 .filtru hr {
@@ -189,4 +192,24 @@ input[type="checkbox"] {
   box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
   background-color:#004d66;
   border-color:#00131a;
+}
+
+@media screen and (max-device-width: 750px) {
+  #filtru_container{
+    margin-left: 0;
+    width: 18%;
+  }
+  .filtru:first-child{
+    min-height: 300px;
+  }
+  
+  .filtru:nth-child(2){
+    min-height: 150px;
+  }
+}
+
+@media screen and (max-device-width: 450px) {
+  .card{
+    height: 40%;
+  }
 }

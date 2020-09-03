@@ -152,3 +152,10 @@ background:  #77f2de; color:#000;
 background: linear-gradient(120deg, rgba(87,23,171,1) 100%, rgba(246,0,255,1) 10%);
 color:#f288cb;
 }
+.soft-pagination-items li a{
+    color: white;
+    text-decoration: none;
+}
+.soft-pagination-items li a:visited{
+    color: white;
+}
