@@ -44,9 +44,9 @@ $db=mysqli_select_db($connection,'anticariat');
         <span class="num_filtru">Pret</span>
         <hr>
         <span class="text_filtru">Pret minim:</span>
-        <input value="0" min="0" max="5000" step="1" type="range" name="lowp" id="low">
+        <input value="0" min="0" max="2500" step="1" type="range" name="lowp" id="low">
         <span class="text_filtru">Pret maxim:</span>
-        <input value="5000" min="0" max="5000" step="1" type="range" name="highp" id="high">
+        <input value="2500" min="0" max="2500" step="1" type="range" name="highp" id="high">
         <span class="text_filtru" id="interval">Interval: <span id="low_price"></span> lei - <span id="high_price"></span> lei</span>
         <hr>
         <div class="interval_pret">
@@ -104,7 +104,7 @@ $connection=mysqli_connect("localhost", "root","");
 $db=mysqli_select_db($connection,'anticariat');
 
 $var_pret_min_slider=isset($_GET['lowp']) ? $_GET['lowp']:'0';
-$var_pret_max_slider=isset($_GET['highp']) ? $_GET['highp']:'5000';
+$var_pret_max_slider=isset($_GET['highp']) ? $_GET['highp']:'2500';
 
 if($var_pret_min_slider>$var_pret_max_slider){
 $temp=$var_pret_min_slider;
@@ -124,7 +124,7 @@ $var_optiune_pret6 = isset($_GET['inter6']) ? $_GET['inter6']:'-1';
 $var_optiune_pret7 = isset($_GET['inter7']) ? $_GET['inter7']:'-1';
 $results_per_page=18;
 
-if($var_pret_min_slider==0&&$var_pret_max_slider==5000&&$var_optiune_pret1==-1&&$var_optiune_pret2==-1&&$var_optiune_pret3==-1&&$var_optiune_pret4==-1&&$var_optiune_pret5==-1&&$var_optiune_pret6==-1&&$var_optiune_pret7==-1){
+if($var_pret_min_slider==0&&$var_pret_max_slider==2500&&$var_optiune_pret1==-1&&$var_optiune_pret2==-1&&$var_optiune_pret3==-1&&$var_optiune_pret4==-1&&$var_optiune_pret5==-1&&$var_optiune_pret6==-1&&$var_optiune_pret7==-1){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus); ";
     $number_of_pages=number_of_pages($sql,$connection,$results_per_page);
@@ -174,7 +174,7 @@ else if($var_tip=='alt'){
 
 
 
-if($var_pret_min_slider!=0||$var_pret_max_slider!=5000){
+if($var_pret_min_slider!=0||$var_pret_max_slider!=2500){
   if($var_tip=='tot'){
     $sql="SELECT produse.idProdus, produse.numProdus, produse.tip, produse.descriere, produse.pret, imagini.poza FROM produse LEFT JOIN imagini ON (produse.idProdus = imagini.idProdus)
     WHERE (pret>='$var_pret_min_slider' AND pret<='$var_pret_max_slider'); ";

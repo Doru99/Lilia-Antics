@@ -69,9 +69,9 @@ if(isset($_SESSION['cart'])){
         <span class="num_filtru">Pret</span>
         <hr>
         <span class="text_filtru">Pret minim:</span>
-        <input value="0" min="0" max="5000" step="1" type="range" name="lowp" id="low">
+        <input value="0" min="0" max="2500" step="1" type="range" name="lowp" id="low">
         <span class="text_filtru">Pret maxim:</span>
-        <input value="5000" min="0" max="5000" step="1" type="range" name="highp" id="high">
+        <input value="2500" min="0" max="2500" step="1" type="range" name="highp" id="high">
         <span class="text_filtru" id="interval">Interval: <span id="low_price"></span> lei - <span id="high_price"></span> lei</span>
         <hr>
         <div class="interval_pret">
