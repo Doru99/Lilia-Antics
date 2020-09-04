@@ -17,9 +17,9 @@ if(isset($_POST['remove'])){
 
 <html>
   <head>
-  <script src="https://js.stripe.com/v3/"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="produse.css">
+  
     <link rel="stylesheet" href="myMenu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="cos.css">
@@ -39,7 +39,7 @@ if(isset($_POST['remove'])){
         <nav class="meniu">
             <ul class="main_meniu">
                 <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-                <li onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li  onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
                 <li class="active" onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
 
                     if(isset($_SESSION['cart'])){
@@ -94,17 +94,92 @@ if(isset($_POST['remove'])){
           </span>
         </td>
         <td>
-          <form method="POST">
-            <button class="checkout" type="submit">Comanda <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
-          </form>
+        
       </tr>
     </tbody>
   </table>
 </div>
 
-<button id="checkout-button">Checkout</button>
+<div class="row">
+  <div class="col-75">
+    <div class="container_detalii_facturare">
+      <form action="success.php" method="POST">
+      
+        <div class="row">
+          <div class="col-50">
+            <h3>Introduceti datele de facturare</h3>
+            <label for="fname"><i class="fa fa-user"></i> Nume complet</label>
+            <input type="text" id="fname" name="nume" placeholder="Andrei Ionescu">
+            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+            <input type="text" id="email" name="email" placeholder="john@example.com">
+            <label for="adr"><i class="fa fa-address-card-o"></i> Adresa</label>
+            <input type="text" id="adr" name="adresa" placeholder="Strada lalelelor Nr 1 Sc 2 Bl 3 Et 4 Ap 5">
+            <label for="phone"><i class="fa fa-phone"></i> Numar de telefon</label>
+            <input type="text" id="phone" name="nr_telefon" placeholder="0787123123">
+            <label for="city"><i class="fa fa-institution"></i> Oras</label>
+            <input type="text" id="city" name="oras" placeholder="Craiova">
+            <input type="hidden" name="pret_total"value="<?php echo $total; ?>"/>
+
+            <div class="row">
+              <div class="col-50">
+                <label for="state">Judet</label>
+                <input type="text" id="state" name="judet" placeholder="Dolj">
+              </div>
+              <div class="col-50">
+                <label for="zip">Cod Postal</label>
+                <input type="text" id="zip" name="cod_postal" placeholder="200457">
+              </div>
+            </div>
+          </div>
+          
+          </div>
+         <input type="submit" value="Plateste la livrare." class="btn">
+      </form>
+    </div>
+  </div>
+
+</div>
 
 
+<div class="row">
+  <div class="col-75">
+    <div class="container_detalii_facturare">
+      <form action="success.php" method="POST">
+      
+        <div class="row">
+          <div class="col-50">
+            <h3>Introduceti datele de facturare</h3>
+            <label for="fname"><i class="fa fa-user"></i> Nume complet</label>
+            <input type="text" id="fname" name="nume" placeholder="Andrei Ionescu">
+            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+            <input type="text" id="email" name="email" placeholder="john@example.com">
+            <label for="adr"><i class="fa fa-address-card-o"></i> Adresa</label>
+            <input type="text" id="adr" name="adresa" placeholder="Strada lalelelor Nr 1 Sc 2 Bl 3 Et 4 Ap 5">
+            <label for="phone"><i class="fa fa-phone"></i> Numar de telefon</label>
+            <input type="text" id="phone" name="nr_telefon" placeholder="0787123123">
+            <label for="city"><i class="fa fa-institution"></i> Oras</label>
+            <input type="text" id="city" name="oras" placeholder="Craiova">
+            <input type="hidden" name="pret_total"value="<?php echo $total; ?>"/>
+
+            <div class="row">
+              <div class="col-50">
+                <label for="state">Judet</label>
+                <input type="text" id="state" name="judet" placeholder="Dolj">
+              </div>
+              <div class="col-50">
+                <label for="zip">Cod Postal</label>
+                <input type="text" id="zip" name="cod_postal" placeholder="200457">
+              </div>
+            </div>
+          </div>
+          
+          </div>
+         <input type="submit" value="Plateste cu cardul." class="btn">
+      </form>
+    </div>
+  </div>
+
+</div>
 
 
     <div id="footer">

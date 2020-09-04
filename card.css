@@ -117,9 +117,7 @@ form{
     .card{
         width:40%;
     }
-    .main_meniu > li {
-        width: 30%;
-    }
+   
 }
 
 @media screen and (max-device-width: 750px) {
