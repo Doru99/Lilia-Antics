@@ -34,6 +34,7 @@ $db=mysqli_select_db($connection,'anticariat');
                     }else echo "0";
 
                 ?>) </a></li> 
+                <li class="meniu_page"></li>
             </ul>
         </nav>
   </div>
@@ -76,19 +77,19 @@ $db=mysqli_select_db($connection,'anticariat');
         <span class="num_filtru">Tip</span>
         <hr>
         <input type="radio" name="tip" value="tot" checked>
-        <label for="tot">Toate tipurile<img src="imagini\deco.svg" class="icon_filter"></label>
+        <label for="tot"><img src="imagini\tot.svg" class="icon_filter">Toate tipurile</label>
         <br>
         <input type="radio" name="tip" value="dec">
-        <label for="dec">Decoratiuni<img src="imagini\deco.svg" class="icon_filter"></label>
+        <label for="dec"><img src="imagini\decoratiuni.svg" class="icon_filter">Decoratiuni</label>
         <br>
         <input type="radio" name="tip" value="vas">
-        <label for="vas">Vase<img src="imagini\vase.svg" class="icon_filter"></label>
+        <label for="vas"><img src="imagini\vase.svg" class="icon_filter">Vase</label>
         <br>
         <input type="radio" name="tip" value="mob">
-        <label for="mob">Mobilier<img src="imagini\furniture.svg" class="icon_filter"></label>
+        <label for="mob"><img src="imagini\mobila.svg" class="icon_filter">Mobilier</label>
         <br>
         <input type="radio" name="tip" value="alt">
-        <label for="alt">Altul</label>
+        <label for="alt"><img src="imagini\altul.svg" class="icon_filter">Altul</label>
       </div>
       <button type="submit">Cauta</button>
     </form>

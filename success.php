@@ -61,6 +61,7 @@ if(isset($_SESSION['cart'])){
                     }else echo "0";
 
                 ?>) </a></li> 
+                <li class="meniu_page"></li>
             </ul>
         </nav>
   </div>

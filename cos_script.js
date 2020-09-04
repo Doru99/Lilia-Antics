@@ -18,12 +18,20 @@ function isEmptyCart() {
 
 function showLivrare() {
     form[0].style.display="block";
+    form[0].style.marginTop="5%";
+    form[0].style.marginBottom="5%";
     form[1].style.display="none";
+    form[1].style.marginTop="0";
+    form[1].style.marginBottom="0";
 }
 
 function showCard() {
     form[0].style.display="none";
+    form[0].style.marginTop="0";
+    form[0].style.marginBottom="0";
     form[1].style.display="block";
+    form[1].style.marginTop="5%";
+    form[1].style.marginBottom="5%";
 }
 
 window.onload=isEmptyCart;

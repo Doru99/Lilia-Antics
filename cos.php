@@ -39,8 +39,8 @@ if(isset($_POST['remove'])){
         <nav class="meniu">
             <ul class="main_meniu">
                 <li onclick="location.href='contact.html';"><a href="contact.html" class="meniu_page">Acasa/Contact</a></li>
-                <li  onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
-                <li class="active" onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
+                <li class="active" onclick="location.href='produse.php';"><a href="produse.php" class="meniu_page">Produse</a></li>
+                <li onclick="location.href='cos.php';"><a href="cos.php" class="meniu_page">Cos(<?php
 
                     if(isset($_SESSION['cart'])){
                       $count=count($_SESSION['cart']);
@@ -48,7 +48,9 @@ if(isset($_POST['remove'])){
                     }else echo "0";
 
                 ?>) </a></li> 
+                <li class="meniu_page"></li>
             </ul>
+            
         </nav>
   </div>
 
@@ -101,11 +103,24 @@ if(isset($_POST['remove'])){
           <td>
           
         </tr>
+        <tr>
+          <td colspan="4">
+          <div class="container-radio">
+            <input type="radio" name="plata" id="livrare" value="livrare">Plateste la livrare</input>
+          </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+          <div class="container-radio">
+            <input type="radio" name="plata" id="card" value="card">Plateste cu cardul</input>
+          </div>
+          </td>
+        </tr>
       </tbody>
     </table>
 
     <div class="row">
-    <input type="radio" name="plata" id="livrare" value="livrare">Plateste la livrare</input>
       <div class="col-100">
         <div class="container_detalii_facturare">
           <form action="success.php" method="POST">
@@ -146,7 +161,6 @@ if(isset($_POST['remove'])){
     </div>
 
     <div class="row">
-    <input type="radio" name="plata" id="card" value="card">Plateste cu cardul</input>
       <div class="col-100">
         <div class="container_detalii_facturare">
           <form action="success.php" method="POST">
